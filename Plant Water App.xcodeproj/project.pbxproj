@@ -35,16 +35,6 @@
 			path = "Plant Water App";
 			sourceTree = "<group>";
 		};
-		0BA092E62E6139DA00BFD858 /* Plant Water AppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Plant Water AppTests";
-			sourceTree = "<group>";
-		};
-		0BA092F02E6139DA00BFD858 /* Plant Water AppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "Plant Water AppUITests";
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +66,6 @@
 			isa = PBXGroup;
 			children = (
 				0BA092D82E6139D900BFD858 /* Plant Water App */,
-				0BA092E62E6139DA00BFD858 /* Plant Water AppTests */,
-				0BA092F02E6139DA00BFD858 /* Plant Water AppUITests */,
 				0BA092D72E6139D900BFD858 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -130,9 +118,6 @@
 			dependencies = (
 				0BA092E52E6139DA00BFD858 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				0BA092E62E6139DA00BFD858 /* Plant Water AppTests */,
-			);
 			name = "Plant Water AppTests";
 			packageProductDependencies = (
 			);
@@ -152,9 +137,6 @@
 			);
 			dependencies = (
 				0BA092EF2E6139DA00BFD858 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				0BA092F02E6139DA00BFD858 /* Plant Water AppUITests */,
 			);
 			name = "Plant Water AppUITests";
 			packageProductDependencies = (
