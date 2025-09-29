@@ -7,10 +7,11 @@
 
 import Foundation
 
-func makeGetRequest(urlString: String) {
+func makeGetRequest(urlString: String) -> String{
+    var responseString: String = ""
     guard let url = URL(string: urlString) else {
         print("Invalid URL")
-        return
+        return ""
     }
 
     let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -27,109 +28,77 @@ func makeGetRequest(urlString: String) {
 
         if let data = data {
             // Process the received data (e.g., decode JSON)
+            responseString = (String(data: data, encoding: .utf8) ?? "Unable to decode")
             print("Received data: \(String(data: data, encoding: .utf8) ?? "Unable to decode")")
         }
     }
     task.resume()
+    return responseString
 }
 
-func makePostRequest(urlString: String, parameters: String) {
-    guard let url = URL(string: urlString) else {
-        print("Invalid URL")
-        return
+func makePostRequest(url: String, toSend: [String: Any]) {
+  
+  // declare the parameter as a dictionary that contains string as key and value combination. considering inputs are valid
+  
+  let parameters: [String: Any] = toSend
+  
+  // create the url with URL
+    let url = URL(string: url)! // change server url accordingly
+  
+  // create the session object
+  let session = URLSession.shared
+  
+  // now create the URLRequest object using the url object
+  var request = URLRequest(url: url)
+  request.httpMethod = "POST" //set http method as POST
+  
+  // add headers for the request
+  request.addValue("application/json", forHTTPHeaderField: "Content-Type") // change as per server requirements
+  request.addValue("application/json", forHTTPHeaderField: "Accept")
+  
+  do {
+    // convert parameters to Data and assign dictionary to httpBody of request
+    request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+  } catch let error {
+    print(error.localizedDescription)
+    return
+  }
+  
+  // create dataTask using the session object to send data to the server
+  let task = session.dataTask(with: request) { data, response, error in
+    
+    if let error = error {
+      print("Post Request Error: \(error.localizedDescription)")
+      return
     }
-    var request = URLRequest(url: url)
-    request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-    request.setValue("application/json", forHTTPHeaderField: "Accept")
-    request.httpMethod = "POST"
-    /*let parameters: String = """
-    {
-      "name": "Alice Wonderland",
-      "age": 30,
-      "isStudent": false,
-      "courses": [
-        {
-          "title": "Advanced Python",
-          "credits": 3
-        },
-        {
-          "title": "Web Development",
-          "credits": 4
-        }
-      ],
-      "contact": {
-        "email": "alice@example.com",
-        "phone": null
-      },
-      "address": {
-        "street": "123 Rabbit Hole",
-        "city": "Wonderland",
-        "zip": "12345"
+    
+    // ensure there is valid response code returned from this HTTP response
+    guard let httpResponse = response as? HTTPURLResponse,
+          (200...299).contains(httpResponse.statusCode)
+    else {
+      print("Invalid Response received from the server")
+      return
+    }
+    
+    // ensure there is data returned
+    guard let responseData = data else {
+      print("nil Data received from the server")
+      return
+    }
+    
+    do {
+      // create json object from data or use JSONDecoder to convert to Model stuct
+      if let jsonResponse = try JSONSerialization.jsonObject(with: responseData, options: .mutableContainers) as? [String: Any] {
+        print(jsonResponse)
+        // handle json response
+      } else {
+        print("data maybe corrupted or in wrong format")
+        throw URLError(.badServerResponse)
       }
+    } catch let error {
+      print(error.localizedDescription)
     }
-    """*/
-    let encoder = JSONEncoder()
-    do{
-        request.httpBody = try encoder.encode(parameters)
-    }catch{
-        print(error)
-    }
-
-    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        guard
-            let data = data,
-            let response = response as? HTTPURLResponse,
-            error == nil
-        else {                                                               // check for fundamental networking error
-            print("error", error ?? URLError(.badServerResponse))
-            return
-        }
-        
-        guard (200 ... 299) ~= response.statusCode else {                    // check for http errors
-            print("statusCode should be 2xx, but is \(response.statusCode)")
-            print("response = \(response)")
-            return
-        }
-        
-        // do whatever you want with the `data`, e.g.:
-        
-        do {
-            let responseObject = try JSONDecoder().decode(ResponseObject<Foo>.self, from: data)
-            print(responseObject)
-        } catch {
-            print(error) // parsing error
-            
-            if let responseString = String(data: data, encoding: .utf8) {
-                print("responseString = \(responseString)")
-            } else {
-                print("unable to parse response as string")
-            }
-        }
-    }
-
-    task.resume()
+  }
+  // perform the task
+  task.resume()
 }
-
-/*extension CharacterSet {
-    static let urlQueryValueAllowed: CharacterSet = {
-        let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
-        let subDelimitersToEncode = "!$&'()*+,;="
-        
-        var allowed: CharacterSet = .urlQueryAllowed
-        allowed.remove(charactersIn: "\(generalDelimitersToEncode)\(subDelimitersToEncode)")
-        return allowed
-    }()
-}*/
-
-// sample Decodable objects for https://httpbin.org
-
-struct ResponseObject<T: Decodable>: Decodable {
-    let form: T    // often the top level key is `data`, but in the case of https://httpbin.org, it echos the submission under the key `form`
-}
-
-struct Foo: Decodable {
-    let id: String
-    let name: String
-}
-
-//POST code from Rob at https://stackoverflow.com/questions/26364914/http-request-in-swift-with-post-method

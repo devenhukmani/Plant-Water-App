@@ -4,6 +4,9 @@ const fs = require('fs')
 const express = require('express');
 const app = express();
 
+var currentAppData = "{}"
+var currentSensorData = "{}"
+
 const port = 3000
 const responseData = {
       message:"Hello, GFG Learner",
@@ -25,12 +28,29 @@ app.listen(port, (error) => {
     }
 });
 
-app.get('/name', (req, res) => { //send info when requested from http://IP:PORT/name
-    res.status(200).send('Hello from the homepage!');
+app.get('/toApp', (req, res) => { //send info when requested from http://IP:PORT/toApp
+    res.status(200).send(currentSensorData)
+});
+app.get('/toSensor', (req, res) => { //send info when requested from http://IP:PORT/toSensor
+    res.status(200).send(currentAppData)
 });
 
-app.post('/name', (req, res) => { //get info when sent to http://IP:PORT/name
-  const requestData = req.body;
+app.post('/fromApp', (req, res) => {
+  const requestData = req.body
 
-  console.log('Received data:', requestData);
+  console.log('Received data:', requestData)
+
+  res.status(200).json({ message: 'Data received successfully!', receivedData: requestData})
+
+  currentAppData = requestData
+});
+
+app.post('/fromSensor', (req, res) => {
+  const requestData = req.body
+
+  console.log('Received data:', requestData)
+
+  res.status(200).json({ message: 'Data received successfully!', receivedData: requestData})
+  
+  currentSensorData = requestData
 });
