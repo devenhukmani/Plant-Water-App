@@ -1,1 +1,3 @@
-GPI00 must be tied to GND during uploading process, but to 3V3 in order to function. To use Uno/Nano serial to monitor ESP8266, simply use same wiring but GPI00 is at 3V3. Additionally, always reset before and after uploading code by tying Reset to GND.
+GPI00 must be tied to GND during uploading process, but to 3V3 in order to function.
+To use Uno/Nano serial to monitor ESP8266, simply use same wiring but GPI00 is at 3V3. 
+Additionally, always reset before and after uploading code by tying Reset to GND.
