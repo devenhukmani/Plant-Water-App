@@ -11,7 +11,9 @@ import SwiftUI
 struct Plant_Water_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            let allPages: [AnyView] = [AnyView(ContentView()), AnyView(ContentView2())]
+
+            PageView(pages: allPages)
         }
     }
 }

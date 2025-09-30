@@ -9,13 +9,13 @@ var currentSensorData = "{}"
 
 const port = 3000
 const responseData = {
-      message:"Hello, GFG Learner",
+      message:"Sample message",
     articleData:{
-        articleName: "How to send JSON response from NodeJS",
-        category:"NodeJS",
-        status: "published"
+        articleName: "Sample JSON",
+        category:"Example",
+        status: "Functional"
     },
-    endingMessage:"Visit Geeksforgeeks.org for more YIPPEE"
+    endingMessage:"This is a sample JSON to be sent over the internet!"
   }
 
 app.use(express.json());
