@@ -1,8 +1,7 @@
 const http = require('http')
-const fs = require('fs')
 
 const express = require('express');
-const app = express();
+const server = express();
 
 var currentAppData = "{}"
 var currentSensorData = "{}"
@@ -18,9 +17,9 @@ const responseData = {
     endingMessage:"This is a sample JSON to be sent over the internet!"
   }
 
-app.use(express.json());
+server.use(express.json());
 
-app.listen(port, (error) => {
+server.listen(port, (error) => {
       if(error){
         console.log('Something went wrong', error)
     }else{
@@ -28,14 +27,14 @@ app.listen(port, (error) => {
     }
 });
 
-app.get('/toApp', (req, res) => { //send info when requested from http://IP:PORT/toApp
+server.get('/toApp', (req, res) => { //send info when requested from http://IP:PORT/toApp
     res.status(200).send(currentSensorData)
 });
-app.get('/toSensor', (req, res) => { //send info when requested from http://IP:PORT/toSensor
+server.get('/toSensor', (req, res) => { //send info when requested from http://IP:PORT/toSensor
     res.status(200).send(currentAppData)
 });
 
-app.post('/fromApp', (req, res) => {
+server.post('/fromApp', (req, res) => {
   const requestData = req.body
 
   console.log('Received data:', requestData)
@@ -45,7 +44,7 @@ app.post('/fromApp', (req, res) => {
   currentAppData = requestData
 });
 
-app.post('/fromSensor', (req, res) => {
+server.post('/fromSensor', (req, res) => {
   const requestData = req.body
 
   console.log('Received data:', requestData)
