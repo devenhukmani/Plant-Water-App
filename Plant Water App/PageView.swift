@@ -15,12 +15,18 @@ struct PageView<Page: View>: View {
 
     var body: some View {
         ViewHandler(pages: pages, currentPage: $currentPage, direction: $direction)
-        Button("Test"){
-            if(currentPage == 0){
-                direction = checkDirection(currentPage: 0)
+        if(currentPage == 0){ //this if statement gives info for "navigation buttons" for each page
+            Button("Water Plants"){
+                    
+            }
+                .disabled(!connected)
+            Button("Connect to a New Device"){
+                direction = checkDirection(currentPage: 0);
                 currentPage = 1;
-            }else{
-                direction = checkDirection(currentPage: 1)
+            }
+        }else if(currentPage == 1){
+            Button("Home"){
+                direction = checkDirection(currentPage: 1);
                 currentPage = 0;
             }
         }
@@ -35,7 +41,7 @@ func checkDirection(currentPage: Int) -> UIPageViewController.NavigationDirectio
     }
 }
 
-let allPages: [AnyView] = [AnyView(ContentView()), AnyView(ContentView2())]
+let allPages: [AnyView] = [AnyView(Home()), AnyView(SendWiFiInfo()), AnyView(Watering())]
 
 #Preview {
     PageView(pages: allPages)

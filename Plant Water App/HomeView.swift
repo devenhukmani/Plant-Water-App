@@ -9,12 +9,15 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct Home: View {
+    
     @State private var textInputOne: String = ""
     @State private var textInputTwo: String = ""
     var body: some View {
         VStack {
-            List {
+            Text("Plant Water")
+                .font(.system(size: 50, weight: .light, design: .serif))
+            /*List{
                 TextField("Item 1", text: $textInputOne)
                 TextField("Item 2", text: $textInputTwo)
             }
@@ -22,10 +25,7 @@ struct ContentView: View {
                 let result: String = makeGetRequest(urlString: "http://192.168.5.128:3000/toApp")
                 print(result)
                 makePostRequest(url: "http://192.168.5.128:3000/fromApp", toSend: ["Item 1": textInputOne, "Item 2": textInputTwo])
-            }
-            Button("Connect Device") {
-                //makePostRequest(url: "http://192.168.4.1:3000/gettingWiFiInfo", toSend: ["SSID": textInputOne, "Password": textInputTwo])
-            }
+            }*/
         }
         .padding()
         .onAppear(){
@@ -35,5 +35,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    Home()
 }

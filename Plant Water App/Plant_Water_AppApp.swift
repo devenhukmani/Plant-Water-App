@@ -7,11 +7,13 @@
 
 import SwiftUI
 
+var connected = false
+
 @main
 struct Plant_Water_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            let allPages: [AnyView] = [AnyView(ContentView()), AnyView(ContentView2())]
+            let allPages: [AnyView] = [AnyView(Home()), AnyView(SendWiFiInfo()), AnyView(Watering())]
 
             PageView(pages: allPages)
         }

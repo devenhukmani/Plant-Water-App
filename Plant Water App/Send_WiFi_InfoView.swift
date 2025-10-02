@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView2: View {
+struct SendWiFiInfo: View {
     @State private var textInputOne: String = ""
     @State private var textInputTwo: String = ""
     var body: some View {
@@ -28,5 +28,5 @@ struct ContentView2: View {
 }
 
 #Preview {
-    ContentView2()
+    SendWiFiInfo()
 }
