@@ -1,0 +1,15 @@
+{
+    "device" : ""
+    "plantName" : ""
+    "waterLevel" : ""
+    "scheduled" : ""
+    "schedule" : [
+        "sunday" : ""
+        "monday" : ""
+        "tuesday" : ""
+        "wednesday" : ""
+        "thursday" : ""
+        "friday" : ""
+        "saturday" : ""
+    ]
+}

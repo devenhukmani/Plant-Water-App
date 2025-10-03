@@ -13,7 +13,7 @@ struct Watering: View {
     
     var body: some View {
         VStack {
-            Text(fromServerSensor)
+            Text("Current value: " + fromServerSensor)
             Button("Refresh"){
                 fromServerSensor = handleGetRequest(url: "http://192.168.5.128:3000/toApp")
             }
