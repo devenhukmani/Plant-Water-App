@@ -2,7 +2,7 @@
     "device" : ""
     "plantName" : ""
     "waterLevel" : ""
-    "scheduled" : ""
+    "currentState" : "" //on, off, scheduled
     "schedule" : [
         "sunday" : ""
         "monday" : ""
