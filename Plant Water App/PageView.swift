@@ -26,6 +26,12 @@ struct PageView<Page: View>: View {
                 currentPage = 1;
             }
         }else if(currentPage != 0){
+            if(currentPage == 3){
+                Button("Back"){
+                    direction = UIPageViewController.NavigationDirection.reverse
+                    currentPage = 2;
+                }
+            }
             Button("Home"){
                 direction = checkDirection(currentPage: currentPage);
                 currentPage = 0;
