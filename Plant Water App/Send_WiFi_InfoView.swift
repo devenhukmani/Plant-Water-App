@@ -13,10 +13,11 @@ struct SendWiFiInfo: View {
     var body: some View {
         VStack {
             List {
-                TextField("SSID", text: $textInputOne)
+                Text("Enter your WiFi credentials here")
+                TextField("Name", text: $textInputOne)
                 TextField("Password", text: $textInputTwo)
             }
-            Button("Send/Receive SSID/PWord") {
+            Button("Send info to connected device") {
                 makePostRequest(url: "http://192.168.4.1:3000/gettingWifiInfo", toSend: ["SSID": textInputOne, "Password": textInputTwo])
             }
         }
