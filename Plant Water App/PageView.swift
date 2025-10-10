@@ -43,6 +43,9 @@ struct PageView<Page: View>: View {
                 }
             }
         }
+        Button("Test"){
+            jsonFileToStruct(filename: "Data")
+        }
     }
 }
 

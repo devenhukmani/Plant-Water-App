@@ -1,15 +1,6 @@
 {
-    "device" : ""
-    "plantName" : ""
-    "waterLevel" : ""
-    "currentState" : "" //on, off, scheduled
-    "schedule" : [
-        "sunday" : ""
-        "monday" : ""
-        "tuesday" : ""
-        "wednesday" : ""
-        "thursday" : ""
-        "friday" : ""
-        "saturday" : ""
-    ]
+  "name": "John Doe",
+  "age": 30,
+  "isStudent": false,
+  "courses": "Chemistry"
 }
