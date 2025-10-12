@@ -22,7 +22,7 @@ func jsonFileToData(filename: String) -> Data? {
     return data
 }
 
-func jsonFileToStruct(filename: String) -> Decodable{
+func jsonFileToStruct(filename: String) -> dataStruct{
     let jsonData = jsonFileToData(filename: filename)
     do {
         let decoder = JSONDecoder()
@@ -31,7 +31,7 @@ func jsonFileToStruct(filename: String) -> Decodable{
     }catch{
         print("Error decoding JSON: \(error)")
     }
-    return "error" as Decodable
+    return dataStruct(device: "", schedule: "")
 }
 
 func jsonStringToData(jsonString: String) -> Data? {
@@ -43,8 +43,6 @@ func jsonStringToData(jsonString: String) -> Data? {
 }
 
 struct dataStruct: Decodable {
-    let name: String
-    let age: Int
-    let isStudent: Bool
-    let courses: String
+    let device: String
+    let schedule: String
 }

@@ -44,7 +44,8 @@ struct PageView<Page: View>: View {
             }
         }
         Button("Test"){
-            jsonFileToStruct(filename: "Data")
+            let dataStruct = jsonFileToStruct(filename: "Data")
+            print(dataStruct.device)
         }
     }
 }
