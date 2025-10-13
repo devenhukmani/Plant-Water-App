@@ -7,15 +7,6 @@ var currentAppData = "{}"
 var currentSensorData = "{}"
 
 const port = 3000
-const responseData = {
-      message:"Sample message",
-    articleData:{
-        articleName: "Sample JSON",
-        category:"Example",
-        status: "Functional"
-    },
-    endingMessage:"This is a sample JSON to be sent over the internet!"
-  }
 
 server.use(express.json());
 
