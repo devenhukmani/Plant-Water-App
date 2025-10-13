@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Watering: View {
     
-    @State var fromServerSensor: String = ""
+    @State var fromServerSensor: dataStruct = dataStruct(ssid: "", password: "", device: "", schedule: "", currentData: -1)
     @State var autoWater: Bool = false
     @State var on: Bool = false
     @State var onString: String = "Toggle On"
@@ -17,7 +17,7 @@ struct Watering: View {
     var body: some View {
         VStack {
             List{
-                Text("Current value: " + fromServerSensor)
+                Text("Current value: " + fromServerSensor.device) //change!!
                 Button("Refresh"){
                     fromServerSensor = handleGetRequest(url: "http://192.168.5.128:3000/toApp")
                 }

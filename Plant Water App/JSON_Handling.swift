@@ -10,8 +10,6 @@ import Foundation
 var fileContent: String = ""
 
 func jsonFileToData(filename: String) -> Data? {
-    // 1. Locate the JSON file in the main bundle
-    
     guard let url = Bundle.main.url(forResource: filename, withExtension: "json") else {
             fatalError("Failed to locate " + filename + ".json in bundle.")
     }
@@ -31,7 +29,7 @@ func jsonFileToStruct(filename: String) -> dataStruct{
     }catch{
         print("Error decoding JSON: \(error)")
     }
-    return dataStruct(device: "", schedule: "")
+    return dataStruct(ssid: "", password: "", device: "", schedule: "", currentData: -1)
 }
 
 func jsonStringToData(jsonString: String) -> Data? {
@@ -42,7 +40,44 @@ func jsonStringToData(jsonString: String) -> Data? {
     return data
 }
 
-struct dataStruct: Decodable {
-    let device: String
-    let schedule: String
+func jsonDataToStruct(jsonData: Data) -> dataStruct?{
+    do {
+        let decoder = JSONDecoder()
+        let decoded = try decoder.decode(dataStruct.self, from: jsonData)
+        return decoded
+    }catch{
+        print("Error decoding JSON: \(error)")
+    }
+    return dataStruct(ssid: "", password: "", device: "", schedule: "", currentData: -1)
+}
+
+func writeDataToJson(data: dataStruct, filename: String){
+    let encoder = JSONEncoder()
+    var jsonData: Data = Data()
+    do{
+        jsonData = try encoder.encode(data)
+    }catch {
+        print("Error encoding JSON: \(error)")
+    }
+    guard let url = Bundle.main.url(forResource: filename, withExtension: "json") else {
+            fatalError("Failed to locate " + filename + ".json in bundle.")
+    }
+    do {
+        try jsonData.write(to: url, options: [.atomicWrite])
+        print("Successfully wrote JSON to \(url.lastPathComponent)")
+    }catch {
+        print("Error writing JSON to file: \(error)")
+    }
+}
+
+func structToDictionary(data: dataStruct) -> [String: Any] {
+    return ["ssid": data.ssid, "password": data.password, "device": data.device, "schedule": data.schedule]
+}
+
+struct dataStruct: Decodable, Encodable{
+    var ssid: String
+    var password: String
+    var device: String
+    var schedule: String
+    var currentData: Int
 }

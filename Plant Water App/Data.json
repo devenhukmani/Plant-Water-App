@@ -1,4 +1,7 @@
 {
   "device": "ESP8266",
-  "schedule": "test2"
+  "ssid": "",
+  "password": "",
+  "schedule": "test2",
+  "currentData": -1
 }

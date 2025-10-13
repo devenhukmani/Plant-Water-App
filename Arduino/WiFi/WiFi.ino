@@ -3,6 +3,9 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
+#include <ArduinoJson.h>
+
+JsonDocument doc;
 
 const char* thisSsid = "ESP8266";
 const char* thisPassword = "1234567890";
@@ -45,31 +48,16 @@ void loop() {
       Serial.println(requestBody);
     }
     if(requestBody != "" && requestBody != NULL){
-      //JSON of form {"ssid":"asdf","password":"asdf1234"}
-      requestBody.replace(" ", "");
-      requestBody.replace("\n", "");
-      requestBody.replace("{", "");
-      requestBody.replace("}", "");
-      requestBody.replace("\"","");
-      int firstComma = requestBody.indexOf(",");
-      String SSID_parse = requestBody.substring(0,firstComma);
-      Serial.println(SSID_parse);
-      String PWORD_parse = requestBody.substring(firstComma);
-      Serial.println(PWORD_parse);
-      if(SSID_parse.indexOf("SSID") == -1){
-        String hold = PWORD_parse;
-        PWORD_parse = SSID_parse;
-        SSID_parse = hold;
+      bool jsonDeserialized = true;
+      DeserializationError error = deserializeJson(doc, requestBody);
+      if(error){
+        Serial.print(F("deserializeJson() failed: "));
+        Serial.println(error.f_str());
+        jsonDeserialized = false;
       }
-      PWORD_parse.replace(",", "");
-      int colon = SSID_parse.indexOf(":");
-      connectSsid = SSID_parse.substring(colon+1);
-      Serial.print("SSID found to be: ");
-      Serial.println(connectSsid);
-      colon = PWORD_parse.indexOf(":");
-      connectPassword = PWORD_parse.substring(colon+1);
-      Serial.print("Password found to be: ");
-      Serial.println(connectPassword);
+      //JSON of form {"ssid":"asdf","password":"asdf1234"}
+      connectSsid = String(doc["ssid"]);
+      connectPassword = String(doc["password"]);
     }
     if(connectSsid != "" && connectPassword != ""){
         WiFi.mode(WIFI_AP_STA);

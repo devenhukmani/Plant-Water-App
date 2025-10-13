@@ -5,6 +5,6 @@
 //  Created by Deven H on 10/3/25.
 //
 
-func handleGetRequest(url: String) -> String {
-    return makeGetRequest(urlString: url)
+func handleGetRequest(url: String) -> dataStruct {
+    return jsonDataToStruct(jsonData: jsonStringToData(jsonString: makeGetRequest(urlString: url))!)!
 }

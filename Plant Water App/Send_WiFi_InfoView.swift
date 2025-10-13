@@ -18,7 +18,11 @@ struct SendWiFiInfo: View {
                 TextField("Password", text: $textInputTwo)
             }
             Button("Send info to connected device") {
-                makePostRequest(url: "http://192.168.4.1:3000/gettingWifiInfo", toSend: ["SSID": textInputOne, "Password": textInputTwo])
+                var editStruct = jsonFileToStruct(filename: "Data")
+                editStruct.ssid = textInputOne
+                editStruct.password = textInputTwo
+                writeDataToJson(data: editStruct, filename: "Data")
+                makePostRequest(url: "http://192.168.4.1:3000/gettingWiFiInfo", toSend: structToDictionary(data: editStruct))
             }
         }
         .padding()
