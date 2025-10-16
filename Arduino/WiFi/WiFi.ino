@@ -13,6 +13,7 @@ String connectSsid = "";
 String connectPassword = "";
 bool connected = false;
 bool failed = false;
+bool on = false;
 
 ESP8266WebServer server(3000);
 
@@ -56,8 +57,10 @@ void loop() {
         jsonDeserialized = false;
       }
       //JSON of form {"ssid":"asdf","password":"asdf1234"}
-      connectSsid = String(doc["ssid"]);
-      connectPassword = String(doc["password"]);
+      if(jsonDeserialized){
+        connectSsid = String(doc["ssid"]);
+        connectPassword = String(doc["password"]);
+      }
     }
     if(connectSsid != "" && connectPassword != ""){
         WiFi.mode(WIFI_AP_STA);
@@ -81,6 +84,27 @@ void loop() {
           failed = true; //deal with this case
         }
     }
+  }
+  server.handleClient();
+  String requestBody = "";
+  if (server.hasArg("plain")) { // For raw data, like JSON
+    requestBody = server.arg("plain");
+    Serial.println(requestBody);
+  }
+  if(requestBody != "" && requestBody != NULL){
+    bool jsonDeserialized = true;
+    DeserializationError error = deserializeJson(doc, requestBody);
+    if(error){
+      Serial.print(F("deserializeJson() failed: "));
+      Serial.println(error.f_str());
+      jsonDeserialized = false;
+    }
+    if(jsonDeserialized){
+      on = bool(doc["on"]);
+    }
+  }
+  if(on){
+    //
   }
 }
 

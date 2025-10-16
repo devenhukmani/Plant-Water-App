@@ -2,6 +2,10 @@
   "device": "ESP8266",
   "ssid": "",
   "password": "",
+  "plantName": "",
+  "waterLevel": -1,
+  "on": false,
+  "auto": false,
   "schedule": "test2",
   "currentData": -1
 }

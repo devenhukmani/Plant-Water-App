@@ -29,7 +29,7 @@ func jsonFileToStruct(filename: String) -> dataStruct{
     }catch{
         print("Error decoding JSON: \(error)")
     }
-    return dataStruct(ssid: "", password: "", device: "", schedule: "", currentData: -1)
+    return dataStruct(device: "", ssid: "", password: "", plantName: "", waterLevel: -1, on: false, auto: false, schedule: "", currentData: -1)
 }
 
 func jsonStringToData(jsonString: String) -> Data? {
@@ -48,7 +48,7 @@ func jsonDataToStruct(jsonData: Data) -> dataStruct?{
     }catch{
         print("Error decoding JSON: \(error)")
     }
-    return dataStruct(ssid: "", password: "", device: "", schedule: "", currentData: -1)
+    return dataStruct(device: "", ssid: "", password: "", plantName: "", waterLevel: -1, on: false, auto: false, schedule: "", currentData: -1)
 }
 
 func writeDataToJson(data: dataStruct, filename: String){
@@ -75,9 +75,13 @@ func structToDictionary(data: dataStruct) -> [String: Any] {
 }
 
 struct dataStruct: Decodable, Encodable{
+    var device: String
     var ssid: String
     var password: String
-    var device: String
+    var plantName: String
+    var waterLevel: Int
+    var on: Bool
+    var auto: Bool
     var schedule: String
     var currentData: Int
 }

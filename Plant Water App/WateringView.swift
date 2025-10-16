@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Watering: View {
     
-    @State var fromServerSensor: dataStruct = dataStruct(ssid: "", password: "", device: "", schedule: "", currentData: -1)
+    @State var fromServerSensor: dataStruct = dataStruct(device: "", ssid: "", password: "", plantName: "", waterLevel: -1, on: false, auto: false, schedule: "", currentData: -1)
     @State var autoWater: Bool = false
     @State var on: Bool = false
     @State var onString: String = "Toggle On"
@@ -37,7 +37,7 @@ struct Watering: View {
         }
         .padding()
         .onAppear(){
-            fromServerSensor = handleGetRequest(url: "http://192.168.5.128:3000/toApp")
+            //fromServerSensor = handleGetRequest(url: "http://192.168.5.128:3000/toApp")
         }
         .onChange(of: autoWater){
             if(autoWater){
